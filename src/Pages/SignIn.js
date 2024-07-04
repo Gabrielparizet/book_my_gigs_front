@@ -26,6 +26,11 @@ function SignIn() {
           });
           console.log(response.data);
 
+          // Store token and account info in localStorage
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('accountId', response.data.account.id);
+
+          navigate(`/profile/${response.data.account.id}`)
         } catch (err) {
           setError(err.response?.data?.message || 'An error occurred');
         }
