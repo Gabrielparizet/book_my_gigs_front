@@ -1,0 +1,68 @@
+Libraries
+
+ReactQuery -> TanStackQuery
+reactHookForm + Zod --> Pour les formulaires
+Zod permet d'écrire des règles. 
+HookForm permet de créer un formulaire en stockant tous les changes et les values relatives au formulaire. 
+
+
+
+Sous dossier Routes:
+
+Mettre les routes dans une constante.
+
+- Liste des Routes
+    Objet javascript {}
+    example:
+
+    export const authenticatedRoutes: AuthenticatedRoutes = {
+  home: {
+    key: "home",
+    name: "Accueil",
+    description: "Bienvenue sur Hubby, votre hub d'applications utilitaires",
+    component: lazy(() => import("../pages/Homepage")),
+    path: "/",
+  },
+  profile: {
+    key: "profile",
+    name: "Profil",
+    description: "Modifiez vos informations personnelles",
+    component: lazy(() => import("../pages/ProfilePage")),
+    path: "/profile",
+  },
+}
+
+lazy -> Pour ne pas appeler toutes les pages dès le départ mais seulement lorsqu'on va se rendre sur telle ou telle page.
+
+Créer un dossier API -> Y mettre toutes les requêtes.
+On va y enregistrer toutes les query avec reat query.
+On utilisera useQuery et useMutation.
+Permet de stocker les données en cache. Lorsqu'on aura besoin des infos fetch précedemment dans une autre query. 
+On aura déjà les données dans un hook useUser créé avec useQuery.
+
+Il existe des options pour invalidateQuery (vider le cache et refetch le data)
+
+useMutation -> Lors des post, patch, put.
+Ne garde pas les données en cache
+Permet par exemple de mettre à jour le useQuery. 
+
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      retryOnMount: false,
+      retry: false,
+      staleTime: Number.POSITIVE_INFINITY,
+    },
+  },
+});
+
+ 
+Les composants doivent avoir le moins de fonctionnalités possible. 
+
+Le front doit avoir le moins de logique métier possible. Le mieux est-que cela se passe côté backend. 
+
+Pour les formulaires reactHookForm
