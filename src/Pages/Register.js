@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 function Register() {
     const [email, setEmail] = useState('');
@@ -33,7 +33,7 @@ function Register() {
             console.log(response.data)
 
             navigate('/signin')
-            
+
         } catch (err) {
             setError(err.response?.data?.message || 'An error occured');
         }
@@ -110,6 +110,12 @@ function Register() {
             </button>
           </div>
         </form>
+        <div className="text-sm text-center">
+          <span className="text-gray-600">Already have an accoun? </span>
+            <Link to="/signin" className="font-medium text-indigo-600 hover:text-indigo-500">
+                Sign in here
+            </Link>
+        </div>
       </div>
     </div>
     )
