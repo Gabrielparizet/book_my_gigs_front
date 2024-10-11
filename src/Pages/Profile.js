@@ -19,7 +19,7 @@ function Profile() {
             }
 
             try {
-                const response = await axios.get(`http://localhost:4000/api/account/${id}`, {
+                const response = await axios.get(`http://localhost:4000/api/accounts/${id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
