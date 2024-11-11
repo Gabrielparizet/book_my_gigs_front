@@ -4,7 +4,7 @@ import Home from './Pages/Home';
 import Register from './Pages/Register';
 import SignIn from './Pages/SignIn';
 import Profile from './Pages/Profile';
-
+import CreateUser from './Pages/CreateUser'
 
 function App() {
   return (
@@ -14,6 +14,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/create-user" element={<CreateUser />} /> 
         </Routes>
     </Router>
   );
