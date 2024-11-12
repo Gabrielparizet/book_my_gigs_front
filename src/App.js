@@ -6,6 +6,8 @@ import SignIn from './Pages/SignIn';
 import Profile from './Pages/Profile';
 import CreateUser from './Pages/CreateUser'
 import ModifyUser from './Pages/ModifyUser';
+import MyEvents from './Pages/MyEvents';
+import CreateEvent from './Pages/CreateEvent';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/create-user" element={<CreateUser />} />
           <Route path="/modify-user/:id" element={<ModifyUser />} />
+          <Route path="/my-events" element={<MyEvents />} />
+          <Route path="/create-event" element={<CreateEvent />} />
         </Routes>
     </Router>
   );

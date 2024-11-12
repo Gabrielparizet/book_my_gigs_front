@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import MainLayout from '../Layout/MainLayout';
+import PublicLayout from '../Layout/PublicLayout'
 
 function SignIn() {
     const [email, setEmail] = useState('');
@@ -37,7 +37,7 @@ function SignIn() {
     };
 
     return (
-        <MainLayout>
+        <PublicLayout>
             <div className="flex flex-col justify-center w-full max-w-md px-4 sm:px-6 lg:px-8">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -99,7 +99,7 @@ function SignIn() {
                     </Link>
                 </div>
             </div>
-        </ MainLayout>
+        </ PublicLayout>
     );
 }
 
