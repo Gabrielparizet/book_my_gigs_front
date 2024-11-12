@@ -21,6 +21,8 @@ function ModifyUser() {
     const [filteredGenres, setFilteredGenres] = useState([]);
     const [showLocationDropdown, setShowLocationDropdown] = useState(false);
     const [showGenreDropdown, setShowGenreDropdown] = useState(false);
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
+    const [updateMessage, setUpdateMessage] = useState('');
 
     const navigate = useNavigate();
     const { id } = useParams();
@@ -137,6 +139,11 @@ function ModifyUser() {
             return;
         }
 
+        // Show confirmation modal instead of immediate update
+        setShowUpdateModal(true);
+    };
+
+    const handleUpdate = async () => {
         try {
             // Update user basic info
             await axios.put(
@@ -184,12 +191,42 @@ function ModifyUser() {
             // Redirect to profile page on success
             navigate(`/profile/${accountId}`);
         } catch (err) {
-            setError('Failed to update user information. Please try again.');
+            setUpdateMessage('Failed to update user information. Please try again.');
         }
     };
 
     return (
         <MainLayout>
+            {showUpdateModal && (
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+                        <h3 className="text-lg font-medium text-gray-900 mb-4">
+                            Are you sure you want to update this user?
+                        </h3>
+                        <p className="text-sm text-gray-500 mb-4">
+                            The information for user {username} will be updated with the new values.
+                        </p>
+                        {updateMessage && (
+                            <p className="text-red-500 text-sm mb-4">{updateMessage}</p>
+                        )}
+                        <div className="flex justify-end space-x-4">
+                            <button
+                                onClick={() => setShowUpdateModal(false)}
+                                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                                No, cancel update
+                            </button>
+                            <button
+                                onClick={handleUpdate}
+                                className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                                Yes, update user
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            
             <div className="flex flex-col justify-center w-full max-w-md px-4 sm:px-6 lg:px-8">
                 <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                     Modify User Profile
