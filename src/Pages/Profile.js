@@ -144,7 +144,6 @@ function Profile() {
                     <div className="mt-8 bg-amber-50 shadow overflow-hidden sm:rounded-lg border border-amber-100">
                         <div className="px-4 py-5 sm:p-6">
                             <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-                                {/* ... (all existing user info fields remain the same) ... */}
                                 <div className="sm:col-span-1 bg-white p-3 rounded-lg shadow-sm">
                                     <dt className="text-sm font-semibold text-gray-800">
                                         Email
@@ -219,8 +218,14 @@ function Profile() {
                                             </dd>
                                         </div>
 
-                                        {/* Delete Button */}
-                                        <div className="sm:col-span-2 flex justify-center mt-6">
+                                        {/* Action Buttons */}
+                                        <div className="sm:col-span-2 flex justify-center mt-6 space-x-4">
+                                            <Link
+                                                to={`/modify-user/${user.id}`}
+                                                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                            >
+                                                Modify User
+                                            </Link>
                                             <button
                                                 onClick={() => setShowDeleteModal(true)}
                                                 className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
