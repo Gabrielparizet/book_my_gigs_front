@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import MainLayout from '../Layout/MainLayout';
+import EventCard from '../Components/EventCard';
 
 function MyEvents() {
     const [events, setEvents] = useState([]);
@@ -73,17 +74,6 @@ function MyEvents() {
         );
     }
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-GB', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    };
-
     return (
         <MainLayout>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -130,70 +120,7 @@ function MyEvents() {
                 ) : (
                     <div className="space-y-6">
                         {events.map((event) => (
-                            <div 
-                                key={event.id}
-                                className="bg-white shadow sm:rounded-lg overflow-hidden"
-                            >
-                                <div className="px-4 py-5 sm:p-6">
-                                    {/* Title Section */}
-                                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                                        {event.title}
-                                    </h3>
-
-                                    {/* Event Meta Information */}
-                                    <div className="flex flex-wrap gap-4 mb-4 text-lg text-gray-700">
-                                        <span className="font-semibold">{formatDate(event.date_and_time)}</span>
-                                        <span>•</span>
-                                        <span className="font-semibold">{event.venue}</span>
-                                        <span>•</span>
-                                        <span className="font-semibold">{event.location}</span>
-                                    </div>
-
-                                    {/* User and Type */}
-                                    <div className="flex items-center gap-2 mb-4">
-                                        <span className="text-sm text-gray-500">Posted by</span>
-                                        <span className="font-medium text-indigo-600">{event.user}</span>
-                                        <span className="text-gray-400">•</span>
-                                        <span className="text-sm text-gray-500">{event.type}</span>
-                                    </div>
-
-                                    {/* Address */}
-                                    <div className="text-gray-600 mb-4">
-                                        {event.address}
-                                    </div>
-
-                                    {/* Description */}
-                                    <div className="text-gray-600 mb-4">
-                                        {event.description}
-                                    </div>
-
-                                    {/* Genres */}
-                                    <div className="flex flex-wrap gap-2">
-                                        {event.genres.map((genre, index) => (
-                                            <span
-                                                key={index}
-                                                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
-                                            >
-                                                {genre}
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    {/* URL if available */}
-                                    {event.url && (
-                                        <div className="mt-4">
-                                            <a 
-                                                href={event.url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-indigo-600 hover:text-indigo-500"
-                                            >
-                                                View Event Details →
-                                            </a>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
+                            <EventCard key={event.id} event={event} />
                         ))}
                     </div>
                 )}
