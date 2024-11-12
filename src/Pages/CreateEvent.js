@@ -11,7 +11,6 @@ function CreateEvent() {
     const [time, setTime] = useState('');
     const [venue, setVenue] = useState('');
     const [url, setUrl] = useState('');
-    const [type, setType] = useState('Club'); // Default value
     
     // Address fields
     const [streetNumber, setStreetNumber] = useState('');
@@ -23,14 +22,19 @@ function CreateEvent() {
     // Location and genres states (similar to CreateUser)
     const [locations, setLocations] = useState([]);
     const [genres, setGenres] = useState([]);
+    const [types, setTypes] = useState([]);
     const [locationInput, setLocationInput] = useState('');
     const [genreInput, setGenreInput] = useState('');
+    const [typeInput, setTypeInput] = useState('');
     const [selectedLocation, setSelectedLocation] = useState('');
     const [selectedGenres, setSelectedGenres] = useState([]);
+    const [selectedType, setSelectedType] = useState('');
     const [filteredLocations, setFilteredLocations] = useState([]);
     const [filteredGenres, setFilteredGenres] = useState([]);
+    const [filteredTypes, setFilteredTypes] = useState([]);
     const [showLocationDropdown, setShowLocationDropdown] = useState(false);
     const [showGenreDropdown, setShowGenreDropdown] = useState(false);
+    const [showTypeDropdown, setShowTypeDropdown] = useState(false);
 
     // Modal and error states
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -47,15 +51,17 @@ function CreateEvent() {
             if (!token) return;
 
             try {
-                const [locationsResponse, genresResponse] = await Promise.all([
+                const [locationsResponse, genresResponse, typesResponse] = await Promise.all([
                     axios.get('http://localhost:4000/locations'),
-                    axios.get('http://localhost:4000/genres')
+                    axios.get('http://localhost:4000/genres'),
+                    axios.get('http://localhost:4000/types')
                 ]);
 
                 setLocations(locationsResponse.data);
                 setGenres(genresResponse.data);
+                setTypes(typesResponse.data);
             } catch (err) {
-                setError('Failed to fetch locations and genres');
+                setError('Failed to fetch locations, genres and types');
             }
         };
 
@@ -135,6 +141,23 @@ function CreateEvent() {
         setSelectedGenres(selectedGenres.filter(genre => genre !== genreToRemove));
     };
 
+    // Handle type input changes
+    const handleTypeInput = (value) => {
+        setTypeInput(value);
+        setShowTypeDropdown(true);
+        const filtered = types.filter(type => 
+            type.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredTypes(filtered);
+    };
+
+    // Handle type selection
+    const handleTypeSelect = (type) => {
+        setSelectedType(type);
+        setTypeInput(type);
+        setShowTypeDropdown(false);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -161,6 +184,9 @@ function CreateEvent() {
         if (selectedGenres.length === 0) {
             setError('Please select at least one genre');
             return;
+        }
+        if(!selectedType) {
+            setError('Please select at least one type');
         }
 
         // Show confirmation modal
@@ -191,7 +217,7 @@ function CreateEvent() {
                         address,
                         url,
                         location: selectedLocation,
-                        type,
+                        type: selectedType,
                         genres: selectedGenres
                     }
                 },
@@ -418,22 +444,33 @@ function CreateEvent() {
                             )}
                         </div>
 
-                        {/* Type Selection */}
-                        <div>
+                        {/* Location field with autocomplete */}
+                        <div className="relative">
                             <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-                                Event Type
+                                Type
                             </label>
-                            <select
+                            <input
+                                type="text"
                                 id="type"
                                 required
                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                value={type}
-                                onChange={(e) => setType(e.target.value)}
-                            >
-                                <option value="Club">Club</option>
-                                <option value="Concert">Concert</option>
-                                <option value="Festival">Festival</option>
-                            </select>
+                                value={typeInput}
+                                onChange={(e) => handleTypeInput(e.target.value)}
+                                onFocus={() => setShowTypeDropdown(true)}
+                            />
+                            {showTypeDropdown && filteredTypes.length > 0 && (
+                                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                                    {filteredTypes.map((type, index) => (
+                                        <div
+                                            key={index}
+                                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                            onClick={() => handleTypeSelect(type)}
+                                        >
+                                            {type}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
                         {/* Genres field with autocomplete and multiple selection */}
