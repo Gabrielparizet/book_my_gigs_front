@@ -14,10 +14,10 @@ function AuthHeader() {
                     <ul className="flex space-x-6">
                         <li>
                             <Link 
-                                to={`/profile/${accountId}`} 
+                                to="/events" 
                                 className="text-white hover:text-indigo-200"
                             >
-                                Profile
+                                Events
                             </Link>
                         </li>
                         <li>
@@ -30,10 +30,10 @@ function AuthHeader() {
                         </li>
                         <li>
                             <Link 
-                                to="/events" 
+                                to={`/profile/${accountId}`} 
                                 className="text-white hover:text-indigo-200"
                             >
-                                Events
+                                Profile
                             </Link>
                         </li>
                     </ul>

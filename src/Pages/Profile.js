@@ -201,7 +201,7 @@ function Profile() {
                     </div>
                 ) : (
                     <>
-                        <div className="mt-8 bg-amber-50 shadow overflow-hidden sm:rounded-lg border border-amber-100">
+                        <div className="mt-8 bg-gray-50 shadow overflow-hidden sm:rounded-lg border border-gray-100">
                             <div className="px-4 py-5 sm:p-6">
                                 <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
                                     <div className="sm:col-span-1 bg-white p-3 rounded-lg shadow-sm">
