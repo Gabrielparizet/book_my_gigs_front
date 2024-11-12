@@ -8,6 +8,7 @@ import CreateUser from './Pages/CreateUser'
 import ModifyUser from './Pages/ModifyUser';
 import MyEvents from './Pages/MyEvents';
 import CreateEvent from './Pages/CreateEvent';
+import Events from './Pages/Events';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/modify-user/:id" element={<ModifyUser />} />
           <Route path="/my-events" element={<MyEvents />} />
           <Route path="/create-event" element={<CreateEvent />} />
+          <Route path="/events" element={<Events />} />
         </Routes>
     </Router>
   );
