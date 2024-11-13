@@ -27,7 +27,6 @@ function Events() {
     const [showGenreDropdown, setShowGenreDropdown] = useState(false);
     const [showTypeDropdown, setShowTypeDropdown] = useState(false);
 
-    // Fetch initial data: events, locations, genres, and types
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem('token');
@@ -48,7 +47,6 @@ function Events() {
                     axios.get('http://localhost:4000/types')
                 ]);
 
-                // Sort events by date_and_time (closest to present to future)
                 const sortedEvents = eventsResponse.data.sort((a, b) => {
                     const dateA = new Date(a.date_and_time);
                     const dateB = new Date(b.date_and_time);
@@ -70,7 +68,6 @@ function Events() {
         fetchData();
     }, []);
 
-    // Handle location input changes
     const handleLocationInput = (value) => {
         setLocationInput(value);
         setShowLocationDropdown(true);
@@ -80,14 +77,12 @@ function Events() {
         setFilteredLocations(filtered);
     };
 
-    // Handle location selection
     const handleLocationSelect = (location) => {
         setSelectedLocation(location);
         setLocationInput(location);
         setShowLocationDropdown(false);
     };
 
-    // Handle genre input changes
     const handleGenreInput = (value) => {
         setGenreInput(value);
         setShowGenreDropdown(true);
@@ -98,7 +93,6 @@ function Events() {
         setFilteredGenres(filtered);
     };
 
-    // Handle genre selection
     const handleGenreSelect = (genre) => {
         if (!selectedGenres.includes(genre)) {
             setSelectedGenres([...selectedGenres, genre]);
@@ -107,12 +101,10 @@ function Events() {
         setShowGenreDropdown(false);
     };
 
-    // Remove genre from selection
     const handleRemoveGenre = (genreToRemove) => {
         setSelectedGenres(selectedGenres.filter(genre => genre !== genreToRemove));
     };
 
-    // Handle type input changes
     const handleTypeInput = (value) => {
         setTypeInput(value);
         setShowTypeDropdown(true);
@@ -122,14 +114,12 @@ function Events() {
         setFilteredTypes(filtered);
     };
 
-    // Handle type selection
     const handleTypeSelect = (type) => {
         setSelectedType(type);
         setTypeInput(type);
         setShowTypeDropdown(false);
     };
 
-    // Handle filter submission
     const handleFilter = async () => {
         if (!selectedLocation) {
             setError('Please select a location to filter events');
@@ -143,7 +133,6 @@ function Events() {
         try {
             let url = `http://localhost:4000/api/events/location/${selectedLocation}`;
             
-            // Add query parameters if type or genres are selected
             const queryParams = new URLSearchParams();
             if (selectedType) {
                 queryParams.append('type', selectedType);
@@ -174,7 +163,6 @@ function Events() {
         }
     };
 
-    // Reset filters and fetch all events
     const handleResetFilters = async () => {
         setSelectedLocation('');
         setLocationInput('');
@@ -185,7 +173,6 @@ function Events() {
         setIsFiltered(false);
         setError('');
         
-        // Fetch all events again
         const token = localStorage.getItem('token');
         if (!token) return;
 
@@ -227,33 +214,33 @@ function Events() {
                     <div className="flex items-center space-x-4">
                         <Link
                             to="/create-event"
-                            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="inline-flex justify-center py-1.5 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             Create Event
                         </Link>
                     </div>
                 </div>
 
-                {/* Filter Section */}
-                <div className="mb-8 bg-white shadow sm:rounded-lg">
-                    <div className="p-6 space-y-4">
-                        <h3 className="text-lg font-medium text-gray-900">Filter Events</h3>
+                <div className="mb-6 bg-white shadow sm:rounded-lg">
+                    <div className="p-4 space-y-3">
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">
+                            Filter Events
+                        </h3>
                         
                         {error && (
-                            <div className="text-red-500 text-sm text-center mb-4">
+                            <div className="text-red-500 text-sm text-center mb-2">
                                 {error}
                             </div>
                         )}
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {/* Location Filter */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                             <div className="relative">
-                                <label className="block text-sm font-medium text-gray-700">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
                                     Location (required)
                                 </label>
                                 <input
                                     type="text"
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-1.5 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     value={locationInput}
                                     onChange={(e) => handleLocationInput(e.target.value)}
                                     onFocus={() => setShowLocationDropdown(true)}
@@ -264,7 +251,7 @@ function Events() {
                                         {filteredLocations.map((location, index) => (
                                             <div
                                                 key={index}
-                                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                                className="px-3 py-1.5 hover:bg-gray-100 cursor-pointer"
                                                 onClick={() => handleLocationSelect(location)}
                                             >
                                                 {location}
@@ -274,14 +261,13 @@ function Events() {
                                 )}
                             </div>
 
-                            {/* Type Filter */}
                             <div className="relative">
-                                <label className="block text-sm font-medium text-gray-700">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
                                     Type (optional)
                                 </label>
                                 <input
                                     type="text"
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-1.5 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     value={typeInput}
                                     onChange={(e) => handleTypeInput(e.target.value)}
                                     onFocus={() => setShowTypeDropdown(true)}
@@ -292,7 +278,7 @@ function Events() {
                                         {filteredTypes.map((type, index) => (
                                             <div
                                                 key={index}
-                                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                                className="px-3 py-1.5 hover:bg-gray-100 cursor-pointer"
                                                 onClick={() => handleTypeSelect(type)}
                                             >
                                                 {type}
@@ -302,14 +288,13 @@ function Events() {
                                 )}
                             </div>
 
-                            {/* Genres Filter */}
                             <div className="relative">
-                                <label className="block text-sm font-medium text-gray-700">
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
                                     Genres (optional)
                                 </label>
                                 <input
                                     type="text"
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-1.5 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     value={genreInput}
                                     onChange={(e) => handleGenreInput(e.target.value)}
                                     onFocus={() => setShowGenreDropdown(true)}
@@ -320,7 +305,7 @@ function Events() {
                                         {filteredGenres.map((genre, index) => (
                                             <div
                                                 key={index}
-                                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                                className="px-3 py-1.5 hover:bg-gray-100 cursor-pointer"
                                                 onClick={() => handleGenreSelect(genre)}
                                             >
                                                 {genre}
@@ -328,12 +313,11 @@ function Events() {
                                         ))}
                                     </div>
                                 )}
-                                {/* Selected genres display */}
-                                <div className="mt-2 flex flex-wrap gap-2">
+                                <div className="mt-1 flex flex-wrap gap-1.5">
                                     {selectedGenres.map((genre, index) => (
                                         <span
                                             key={index}
-                                            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
+                                            className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
                                         >
                                             {genre}
                                             <button
@@ -349,19 +333,18 @@ function Events() {
                             </div>
                         </div>
 
-                        {/* Filter Actions */}
-                        <div className="flex justify-end space-x-4 pt-4">
+                        <div className="flex justify-end space-x-4 pt-2">
                             {isFiltered && (
                                 <button
                                     onClick={handleResetFilters}
-                                    className="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    className="inline-flex justify-center py-1.5 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 >
                                     Back to All Events
                                 </button>
                             )}
                             <button
                                 onClick={handleFilter}
-                                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="inline-flex justify-center py-1.5 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Filter Events
                             </button>
@@ -369,14 +352,13 @@ function Events() {
                     </div>
                 </div>
 
-                {/* Events Display */}
                 {error && !events.length ? (
                     <div className="mt-8 bg-white shadow sm:rounded-lg">
                         <div className="p-6 flex flex-col items-center justify-center space-y-4">
                             <p className="text-red-500 text-center">{error}</p>
                             <Link 
                                 to="/create-event"
-                                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="inline-flex justify-center py-1.5 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Create Event
                             </Link>
@@ -386,14 +368,14 @@ function Events() {
                     <div className="mt-8 bg-white shadow sm:rounded-lg">
                         <div className="p-6 flex flex-col items-center justify-center space-y-4">
                             <p className="text-gray-500 text-center text-lg">
-                                {isFiltered 
+                            {isFiltered 
                                     ? "No events found with these filters. Try adjusting your search criteria."
                                     : "No upcoming events found. Be the first to create one!"
                                 }
                             </p>
                             <Link 
                                 to="/create-event"
-                                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="inline-flex justify-center py-1.5 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Create Event
                             </Link>
