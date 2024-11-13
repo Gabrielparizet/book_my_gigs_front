@@ -5,12 +5,13 @@ function EventCard({ event }) {
         const date = new Date(dateString);
         const month = date.toLocaleString('en-US', { month: 'short' });
         const day = date.getDate();
+        const year = date.getFullYear();
         const hour = date.getHours();
         const minute = date.getMinutes().toString().padStart(2, '0');
         const suffix = hour >= 12 ? 'pm' : 'am';
         const formattedHour = hour % 12 || 12;
         
-        return `${month} ${day}${getDaySuffix(day)}, ${formattedHour}:${minute}${suffix}`;
+        return `${month} ${day}${getDaySuffix(day)}, ${year}, ${formattedHour}:${minute}${suffix}`;
     };
 
     const getDaySuffix = (day) => {
