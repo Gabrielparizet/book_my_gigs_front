@@ -1,15 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../Assets/logo-color.png';
 
 function AuthHeader() {
     const accountId = localStorage.getItem('accountId');
 
     return (
         <header className="bg-indigo-600 shadow-lg">
-            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-                <h1 className="text-3xl font-bold text-white">
-                    <Link to="/">Book My Gigs</Link>
-                </h1>
+            <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                <Link to="/" className="flex items-center">
+                    <img 
+                        src={logo} 
+                        alt="Book My Gigs Logo" 
+                        className="h-12 w-auto"
+                    />
+                </Link>
                 <nav>
                     <ul className="flex space-x-6">
                         <li>
