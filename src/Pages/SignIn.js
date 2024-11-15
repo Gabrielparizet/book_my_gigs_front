@@ -24,7 +24,6 @@ function SignIn() {
               'Content-Type': 'application/json'
             }
           });
-          console.log(response.data);
 
           // Store token and account info in localStorage
           localStorage.setItem('token', response.data.token);
